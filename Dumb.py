@@ -18,8 +18,8 @@ class Dumb():
 
         for idx in sorted(mutation_idx_list)[::-1]: # descending order
             self.mutationList.append([idx])
-            self.mutationList[-1].append(randrange(3)) # cutting, byteMutate, adding
-            #self.mutationList[-1].append(1)
+            #self.mutationList[-1].append(randrange(3)) # cutting, byteMutate, adding
+            self.mutationList[-1].append(1)
 
             if self.mutationList[-1][1] == 0:
                 self.mutationList[-1].append(randrange(2))

@@ -1,4 +1,3 @@
-import OleFileIO_PL as OLE
 import winappdbg
 from winappdbg import *
 import os
