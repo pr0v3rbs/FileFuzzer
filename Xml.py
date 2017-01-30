@@ -21,14 +21,16 @@ class Xml():
 
     def getTagType_(self, sIdx, eIdx):
         curIdx = sIdx
-        tagTypes = {}
+        tagTypes = []
         while curIdx < eIdx - 2:
             curIdx = self.data.find(" ", curIdx)
             typeName = self.data[curIdx + 1:self.data.find("=", curIdx + 2)]
             curIdx = self.data.find('"', curIdx + len(typeName))
             typeValue = self.data[curIdx + 1:self.data.find('"', curIdx + 1)]
+            #if ord(typeValue[0]) >= 128:
+            #    typeValue = typeValue.decode('utf-8')
             curIdx = self.data.find('"', curIdx + 1 + len(typeValue)) + 1
-            tagTypes[typeName] = typeValue
+            tagTypes.append([typeName, typeValue])
         return tagTypes
 
     def makeTagList_(self):
@@ -69,10 +71,9 @@ class Xml():
 
         for idx in sorted(sample(tagTypesMap, randrange(1, 100)))[::-1]: # descending order
             mutationTag = tagTypesMap[idx]
-            for tagType in mutationTag["tagTypes"]:
+            for j, tagType in enumerate(mutationTag["tagTypes"]):
                 if randrange(3) != '0': continue # not mutate all of types(33% mutate rate)
-
-                checkString = mutationTag["tagTypes"][tagType]
+                checkString = tagType[1]
                 unit = ''
                 if checkString.endswith("mm") or checkString.endswith("cm"):
                     checkString = checkString[:-2]
@@ -81,16 +82,15 @@ class Xml():
                     float(checkString)
                 except:
                     continue
-                mutationTag["tagTypes"][tagType] = choice(self.mutationNumber) + unit
+                mutationTag["tagTypes"][j] = [tagType[0], choice(self.mutationNumber) + unit]
             self.mutationList.append(mutationTag)
 
     def mutate_(self):
         self.mData = bytearray(self.data)
         for mutation in self.mutationList: # descending order
             typeString = str(mutation["tagTypes"])
-            typeString = typeString[2:].replace("': '", "='").replace("', '", "' ")[:-1]
-            # TODO: need to check type order
-            self.mData = self.mData[:mutation["tagsIdx"]] + typeString + self.mData[mutation["tageIdx"] + 1:]
+            typeString = typeString[3:].replace("', '", "='").replace("'], ['", "' ")[:-2]
+            self.mData = self.mData[:mutation["tagsIdx"]] + typeString + self.mData[mutation["tageIdx"]:]
 
     def runMutation(self, targetFile):
         self.targetFile = targetFile
