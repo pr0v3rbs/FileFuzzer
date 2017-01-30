@@ -5,6 +5,7 @@ from random import choice, uniform, sample, randrange
 from CrashChecker import CrashChecker
 from Dumb import Dumb
 from Ole import Ole
+from Xml import Xml
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -15,10 +16,11 @@ class Fuzzer():
         if not os.path.exists("tmp"): os.makedirs("tmp")
         self.seedDir = os.getcwd()+os.sep+"seed"+os.sep
         self.tmpDir = os.getcwd()+os.sep+"tmp"+os.sep
-        self.crashChecker = CrashChecker(r"C:\Program Files (x86)\Hnc\Office NEO\HOffice96\Bin\HCell.exe")
-        #self.crashChecker = CrashChecker(r"C:\Program Files (x86)\Hnc\Office NEO\HOffice96\Bin\Hwp.exe")
+        #self.crashChecker = CrashChecker(r"C:\Program Files (x86)\Hnc\Office NEO\HOffice96\Bin\HCell.exe")
+        self.crashChecker = CrashChecker(r"C:\Program Files (x86)\Hnc\Office NEO\HOffice96\Bin\Hwp.exe")
         self.fuzzMap = {}
         self.fuzzMap["hwp"] = [Dumb(), Ole()]
+        self.fuzzMap["hml"] = [Xml()]
         self.fuzzMap["cell"] = [Dumb()]
         self.fuzzMap["xlsx"] = [Dumb()]
 
