@@ -27,6 +27,7 @@ class Xml():
             typeName = self.data[curIdx + 1:self.data.find("=", curIdx + 2)]
             curIdx = self.data.find('"', curIdx + len(typeName))
             typeValue = self.data[curIdx + 1:self.data.find('"', curIdx + 1)]
+            # TODO: need to reassembly unicode?
             #if ord(typeValue[0]) >= 128:
             #    typeValue = typeValue.decode('utf-8')
             curIdx = self.data.find('"', curIdx + 1 + len(typeValue)) + 1
@@ -72,7 +73,7 @@ class Xml():
         for idx in sorted(sample(tagTypesMap, randrange(1, 100)))[::-1]: # descending order
             mutationTag = tagTypesMap[idx]
             for j, tagType in enumerate(mutationTag["tagTypes"]):
-                if randrange(3) != '0': continue # not mutate all of types(33% mutate rate)
+                if randrange(3) == '0': continue # not mutate all of types(66% mutate rate)
                 checkString = tagType[1]
                 unit = ''
                 if checkString.endswith("mm") or checkString.endswith("cm"):
