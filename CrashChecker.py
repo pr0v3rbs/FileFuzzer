@@ -78,10 +78,10 @@ class CrashChecker():
                         import traceback
                         print traceback.format_exc()
                         pass
-                    try:
-                        event.get_process().kill()
-                    except:
-                        subprocess.call("taskkill /f /im %s" % self.program.split("\\")[-1])
+                try:
+                    event.get_process().kill()
+                except:
+                    subprocess.call("taskkill /f /im %s" % self.program.split("\\")[-1])
         else: # not crash
             if not self.timer:
                 self.timer = threading.Timer(5, self.quit_, [event.get_process()])
