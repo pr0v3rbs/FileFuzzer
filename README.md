@@ -6,4 +6,4 @@ pip install winappdbg olefileio-pl
 python Fuzzer.py
 
 ## reference
-http://hacklab.kr/?p=430
+crash and OLE fuzzer source : http://hacklab.kr/?p=430
